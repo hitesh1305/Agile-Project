@@ -70,12 +70,6 @@ A background thread runs on a periodic interval and:
 - Compares current date against project due dates
 - Automatically updates project status to **Overdue** when deadlines are missed
 
-**Design notes:**
-- Implemented using Python's `threading.Thread` with a `time.sleep` loop
-- Runs independently of the request/response cycle
-- Failure handling: the thread is daemonized (exits with the main process) and wrapped in a `try/except` to log errors without crashing the app
-- **Limitation:** No retry mechanism — a missed check window is skipped. For production, this would be replaced with Celery + Redis for reliable scheduling, retries, and observability.
-
 ---
 
 ## 🗄️ Database Schema
@@ -239,7 +233,6 @@ The app will be available at `http://localhost:5000`.
 
 **Known Limitations:**
 - Passwords are stored in plain text — should use `bcrypt` hashing
-- No CSRF protection on forms
 - No rate limiting on login endpoint
 - No input sanitization beyond ORM-level protection
 - No HTTPS enforcement in local dev
@@ -251,19 +244,18 @@ These are acceptable for an internal prototype but would need to be addressed be
 ## 🔮 What I'd Improve With More Time
 
 - [ ] **Password hashing** — integrate `bcrypt` for secure credential storage
-- [ ] **Celery + Redis** — replace background thread with a proper task queue supporting retries, scheduling, and failure visibility
 - [ ] **Real-time updates** — use WebSockets or SSE to push status changes to connected clients
 - [ ] **Notifications & reminders** — email or in-app alerts for upcoming deadlines and task assignments
 - [ ] **Pagination and filtering** — handle larger datasets across project/story/task lists
 - [ ] **CSRF protection** — add `Flask-WTF` for form security
 - [ ] **Better UI/UX** — more interactive task board (drag-and-drop kanban style)
-- [ ] **Test coverage** — unit tests for models and route logic, integration tests for the async workflow
+
 
 ---
 
 ## 🤖 AI Usage
 
-AI tools (primarily Claude and GitHub Copilot) were used during development for:
+AI tools were used during development for:
 - Debugging SQLAlchemy relationship issues
 - Structuring the background thread implementation
 - Speeding up boilerplate (route scaffolding, template layout)
