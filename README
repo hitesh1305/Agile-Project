@@ -1,261 +1,172 @@
-# Agile Project Management Tool
+# 🗂️ Agile Project Management Tool
 
-This project is a simple full-stack application built to manage work for a small team using an agile-style workflow.
+A lightweight, full-stack project management app built for small teams — structured, trackable, and easy to extend.
 
-The main goal was not to build something complex, but to design a system that:
-- clearly structures work
-- tracks progress across levels
-- enforces role-based control
-
-Work is organized in three levels:
-
-Project → Story → Task
-
-Each level represents a different level of abstraction, from overall goals down to individual tasks.
----
-
-## Why this was built this way
-
-Instead of focusing on using complex frameworks, the focus was on:
-
-* clear data relationships
-* clean backend logic
-* complete functionality
-
-The idea was to build something that works end-to-end and is easy to understand and extend.
+> **Live Demo:** [agile-project-yrol.onrender.com](https://agile-project-yrol.onrender.com/)
 
 ---
 
-## Tech Stack
+## 📌 Overview
 
-* Backend: Flask
-* Database: SQLite
-* ORM: SQLAlchemy
-* Authentication: Flask-Login
-* Frontend: HTML + Bootstrap
-
----
-
-## Features
-
-### User roles
-
-There are three types of users:
-
-* Admin
-* Project Manager
-* Viewer
-
-Permissions are controlled based on role:
-
-* Admin manages roles
-* Manager creates and updates projects, stories, and tasks
-* Viewer can only view data
-
----
-
-### Work hierarchy
-
-Work is structured as:
-
-* A project contains multiple stories
-* A story contains multiple tasks
-
-This keeps everything organized and easy to navigate.
-
----
-
-### Task management
-
-* Tasks can be created under stories
-* Tasks can be assigned to users
-* Each task has a status:
-
-  * To Do
-  * In Progress
-  * Done
-
----
-
-### Automatic progress tracking
-
-The system updates progress automatically:
-
-* If all tasks in a story are done → story is marked as Done
-* If all stories in a project are done → project is marked as Done
-
----
-
-### Due dates and overdue handling
-
-* Projects have due dates
-* If a project is not completed before its due date → it is marked as Overdue
-
----
-
-### Background processing (Async)
-
-A background thread runs periodically and checks:
-
-* project deadlines
-* updates project status if needed
-
-This is a simple implementation of async behavior.
-
----
-
-## Project structure
+Work is organized in a clean three-level hierarchy:
 
 ```
-agile-project/
-│
-├── app.py          # App setup and background thread
-├── models.py       # Database models
-├── routes.py       # Application logic and routes
-├── templates/      # HTML pages
-├── static/         # Styling files
-├── seed.py         # Reset and seed database
-└── requirements.txt
+Project  →  Story  →  Task
 ```
 
----
-
-## Database design
-
-### User
-
-* id
-* username
-* password
-* role
-
-### Project
-
-* id
-* name
-* description
-* due_date
-* status
-
-### Story
-
-* id
-* title
-* status
-* project_id
-
-### Task
-
-* id
-* title
-* status
-* story_id
-* assigned_to
+| Level | Represents |
+|-------|-----------|
+| **Project** | The overall goal |
+| **Story** | A feature or requirement |
+| **Task** | The actual work item |
 
 ---
 
-## Key routes
+## 🛠️ Tech Stack
 
-| Method   | Endpoint                        | Purpose              |
-| -------- | ------------------------------- | -------------------- |
-| GET      | /login                          | Login page           |
-| POST     | /login                          | Login user           |
-| GET      | /dashboard                      | Main dashboard       |
-| GET/POST | /create_project                 | Create project       |
-| GET      | /view_projects                  | View all projects    |
-| GET      | /project/<id>                   | View project details |
-| GET/POST | /create_story/<project_id>      | Create story         |
-| GET      | /story/<id>                     | View story           |
-| GET/POST | /create_task/<story_id>         | Create task          |
-| GET      | /update_task/<task_id>/<status> | Update task status   |
+| Layer | Technology |
+|-------|-----------|
+| Backend | Flask |
+| Database | PostgreSQL (Supabase) |
+| ORM | SQLAlchemy |
+| Auth | Flask-Login |
+| Frontend | HTML + Bootstrap |
+| Deployment | Render |
 
 ---
 
-## How to run the project
+## ✨ Features
 
-1. Clone the repository
+### 🔐 Role-Based Access Control
+
+| Role | Permissions |
+|------|------------|
+| **Admin** | Manage users and roles |
+| **Manager** | Create and update projects, stories, and tasks |
+| **Viewer** | Read-only access |
+
+### 📋 Task Management
+- Create tasks under stories
+- Assign tasks to users
+- Track status: `To Do` → `In Progress` → `Done`
+
+### 📈 Automatic Progress Tracking
+- All tasks done → Story marked **Done**
+- All stories done → Project marked **Done**
+
+### ⏰ Due Dates & Overdue Detection
+- Projects have due dates
+- Missed deadlines auto-mark the project as **Overdue**
+
+### ⚙️ Background Processing
+A background thread periodically checks deadlines and updates project statuses — a simple implementation of async behavior.
+
+---
+
+## 🗄️ Database Schema
 
 ```
+User
+ └── assigned Tasks
+
+Project
+ └── Stories
+      └── Tasks
+```
+
+**Relationships:**
+- A Project has many Stories
+- A Story has many Tasks
+- A Task is assigned to one User
+
+---
+
+## 🌐 API Routes
+
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|--------|
+| `GET` | `/login` | Login page | Public |
+| `POST` | `/login` | Authenticate user | Public |
+| `GET` | `/dashboard` | User dashboard | Auth |
+| `GET/POST` | `/create_project` | Create a project | Manager |
+| `GET` | `/view_projects` | View all projects | Auth |
+| `GET` | `/project/<id>` | Project details | Auth |
+| `GET/POST` | `/create_story/<project_id>` | Create a story | Manager |
+| `GET` | `/story/<id>` | Story and tasks | Auth |
+| `GET/POST` | `/create_task/<story_id>` | Create a task | Manager |
+| `GET` | `/update_task/<task_id>/<status>` | Update task status | Manager |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Python 3.x
+- pip
+
+### Installation
+
+```bash
+# 1. Clone the repository
 git clone <repo-link>
 cd agile-project
-```
 
-2. Create virtual environment
-
-```
+# 2. Create and activate virtual environment
 python -m venv venv
-venv\Scripts\activate
-```
+venv\Scripts\activate        # Windows
+# source venv/bin/activate   # macOS/Linux
 
-3. Install dependencies
-
-```
+# 3. Install dependencies
 pip install -r requirements.txt
-```
 
-4. Initialize database
-
-```
-python seed.py
-```
-
-5. Run the app
-
-```
+# 4. Run the application
 python app.py
 ```
 
-6. Open in browser
+---
+
+## 🔑 Test Credentials (Demo)
+
+| Role | Username | Password |
+|------|----------|----------|
+| Admin | `admin` | `admin123` |
+| Manager | `manager` | `123` |
+| Viewer | `viewer` | `123` |
+
+---
+
+## 🏗️ Architecture
 
 ```
-http://127.0.0.1:5000
+├── models/       # SQLAlchemy models & DB schema
+├── routes/       # Application logic & endpoints
+└── templates/    # Jinja2 HTML templates (Bootstrap)
 ```
 
----
-
-## Design decisions
-
-* Flask was used to keep the backend simple and understandable
-* SQLite was chosen for quick setup and no external dependency
-* A background thread was used instead of Celery to keep the system lightweight
-* UI was kept minimal using Bootstrap to focus on functionality
+The backend communicates with a cloud PostgreSQL database via SQLAlchemy. The layered structure keeps concerns cleanly separated.
 
 ---
 
-## Security notes
+## ⚖️ Design Decisions
 
-* Role-based access control is implemented
-* Routes are protected using login sessions
-
-Limitations:
-
-* Passwords are stored in plain text (can be improved using hashing)
-* No advanced authentication mechanisms
-
----
-
-## What can be improved
-
-* Add password hashing
-* Add real-time updates
-* Add notifications or reminders
-* Improve UI further
-* Replace background thread with a proper task queue
+| Decision | Reason |
+|----------|--------|
+| Flask over Django | Simplicity, faster development |
+| SQLite → PostgreSQL | Persistence and production-readiness |
+| Background thread for async | Avoid added complexity of a task queue |
+| Bootstrap UI | Clean interface without a frontend framework |
 
 ---
 
-## AI usage
+## ⚠️ Known Limitations
 
-AI was used during development for:
-
-* debugging
-* structuring the project
-* improving implementation speed
-
-All logic and concepts were understood and verified before implementation.
+- Passwords stored in plain text *(no hashing)*
 
 ---
 
-## Final note
 
-The focus of this project was not to build something complex, but to build something complete, structured, and easy to understand.
+## 🤖 AI Usage
+
+AI tools were used during development for debugging, structuring, and speeding up implementation. All logic and decisions were reviewed and verified before use.
+
+---
