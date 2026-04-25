@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Create Project</h2>
+
+<form method="POST">
+    <div class="mb-3">
+        <label class="form-label">Project Name</label>
+        <input type="text" name="name" class="form-control" placeholder="Enter project name" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea name="description" class="form-control" rows="4" placeholder="Enter project details"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Due Date</label>
+        <input type="date" name="due_date" class="form-control" required>
+    </div>
+
+    <button type="submit" class="btn btn-kpit-primary">Create Project</button>
+    <a href="/dashboard" class="btn btn-link text-muted">Cancel</a>
+</form>
+{% endblock %}

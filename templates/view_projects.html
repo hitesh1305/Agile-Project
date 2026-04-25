@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>All Projects</h2>
+    <a href="/dashboard" class="btn btn-outline-secondary btn-sm">Back to Dashboard</a>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <ul class="p-0 list-unstyled">
+            {% for project in projects %}
+                <li class="project-item shadow-sm mb-3 p-3 rounded bg-white">
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        
+                        <h5 class="mb-1">
+                            <a href="/project/{{ project.id }}" class="text-decoration-none text-dark">
+                                {{ project.name }}
+                            </a>
+                        </h5>
+
+                        <!-- Status Badge -->
+                        <span class="badge 
+                            {% if project.status == 'Done' %} bg-success
+                            {% elif project.status == 'Overdue' %} bg-danger
+                            {% elif project.status == 'In Progress' %} bg-warning text-dark
+                            {% else %} bg-secondary
+                            {% endif %}
+                        ">
+                            {{ project.status }}
+                        </span>
+
+                    </div>
+
+                    <p class="text-muted mb-2 small">
+                        {{ project.description if project.description else "No description provided" }}
+                    </p>
+
+                    <div class="text-end">
+                        <small class="text-secondary font-monospace">
+                            Due: {{ project.due_date.strftime('%Y-%m-%d') if project.due_date else "No due date" }}
+                        </small>
+                    </div>
+
+                </li>
+            {% else %}
+                <li class="text-center text-muted">
+                    No projects available
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

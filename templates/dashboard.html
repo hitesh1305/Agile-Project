@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    :root {
+        --kpit-blue: #003366; 
+        --kpit-teal: #00a9e0; 
+        --bg-gray: #f8f9fa;
+    }
+
+    body {
+        background-color: var(--bg-gray);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Clean, professional header card */
+    .dashboard-header {
+        background: #ffffff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        border-left: 6px solid var(--kpit-blue);
+        margin-bottom: 2.5rem;
+    }
+
+    .welcome-text {
+        color: var(--kpit-blue);
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .role-text {
+        color: #6c757d;
+        font-size: 0.95rem;
+        letter-spacing: 0.5px;
+    }
+
+    /* Card styling for the buttons */
+    .action-card {
+        background: #ffffff;
+        border: none;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .action-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    }
+
+    /* Custom KPIT Buttons */
+    .btn-kpit-success {
+        background-color: #28a745;
+        border: none;
+        font-weight: 600;
+        padding: 10px;
+        transition: opacity 0.2s;
+    }
+
+    .btn-kpit-primary {
+        background-color: var(--kpit-blue);
+        border: none;
+        font-weight: 600;
+        padding: 10px;
+        transition: background 0.2s;
+    }
+
+    .btn-kpit-primary:hover {
+        background-color: #00264d;
+    }
+
+    hr.soft {
+        border-top: 1px solid #e0e0e0;
+        margin: 2rem 0;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="dashboard-header">
+        <h3 class="welcome-text">Welcome, {{ current_user.username }}</h3>
+        <p class="role-text">Account Role: <span class="badge bg-light text-dark border">{{ current_user.role }}</span></p>
+    </div>
+
+    <div class="row g-4">
+        {% if current_user.role == "manager" %}
+        <div class="col-md-4">
+            <div class="action-card">
+                <p class="text-muted small">Administrative Access</p>
+                <a href="/create_project" class="btn btn-kpit-success w-100 text-white">Create Project</a>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="col-md-4">
+            <div class="action-card">
+                <p class="text-muted small">Project Oversight</p>
+                <a href="/view_projects" class="btn btn-kpit-primary w-100 text-white">View Projects</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

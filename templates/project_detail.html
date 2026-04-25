@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="mb-4">
+    <div class="d-flex justify-content-between align-items-start">
+        <div>
+            <h3>{{ project.name }}</h3>
+            <p class="text-muted">{{ project.description }}</p>
+        </div>
+        <div class="text-end">
+            <p class="mb-1"><strong>Status:</strong> <span class="badge bg-light text-dark border">{{ project.status }}</span></p>
+            <p class="small text-secondary"><strong>Due:</strong> {{ project.due_date }}</p>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Stories</h4>
+    {% if current_user.role == "manager" %}
+    <a href="/create_story/{{ project.id }}" class="btn btn-kpit-primary">
+        Add Story
+    </a>
+    {% endif %}
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <ul class="p-0">
+            {% for story in stories %}
+            <li class="project-item shadow-sm d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="/story/{{ story.id }}" class="fw-bold text-decoration-none text-dark">
+                        {{ story.title }}
+                    </a>
+                </div>
+                <span class="badge rounded-pill bg-light text-dark border">
+                    {{ story.status }}
+                </span>
+            </li>
+            {% else %}
+            <li class="list-group-item text-center py-4 text-muted border-0 bg-light rounded">
+                No stories have been added to this project yet.
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="/view_projects" class="text-decoration-none text-secondary small">
+        &larr; Back to Project List
+    </a>
+</div>
+
+{% endblock %}

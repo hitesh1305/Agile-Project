@@ -1,0 +1,261 @@
+# Agile Project Management Tool
+
+This project is a simple full-stack application built to manage work for a small team using an agile-style workflow.
+
+The main goal was not to build something complex, but to design a system that:
+- clearly structures work
+- tracks progress across levels
+- enforces role-based control
+
+Work is organized in three levels:
+
+Project → Story → Task
+
+Each level represents a different level of abstraction, from overall goals down to individual tasks.
+---
+
+## Why this was built this way
+
+Instead of focusing on using complex frameworks, the focus was on:
+
+* clear data relationships
+* clean backend logic
+* complete functionality
+
+The idea was to build something that works end-to-end and is easy to understand and extend.
+
+---
+
+## Tech Stack
+
+* Backend: Flask
+* Database: SQLite
+* ORM: SQLAlchemy
+* Authentication: Flask-Login
+* Frontend: HTML + Bootstrap
+
+---
+
+## Features
+
+### User roles
+
+There are three types of users:
+
+* Admin
+* Project Manager
+* Viewer
+
+Permissions are controlled based on role:
+
+* Admin manages roles
+* Manager creates and updates projects, stories, and tasks
+* Viewer can only view data
+
+---
+
+### Work hierarchy
+
+Work is structured as:
+
+* A project contains multiple stories
+* A story contains multiple tasks
+
+This keeps everything organized and easy to navigate.
+
+---
+
+### Task management
+
+* Tasks can be created under stories
+* Tasks can be assigned to users
+* Each task has a status:
+
+  * To Do
+  * In Progress
+  * Done
+
+---
+
+### Automatic progress tracking
+
+The system updates progress automatically:
+
+* If all tasks in a story are done → story is marked as Done
+* If all stories in a project are done → project is marked as Done
+
+---
+
+### Due dates and overdue handling
+
+* Projects have due dates
+* If a project is not completed before its due date → it is marked as Overdue
+
+---
+
+### Background processing (Async)
+
+A background thread runs periodically and checks:
+
+* project deadlines
+* updates project status if needed
+
+This is a simple implementation of async behavior.
+
+---
+
+## Project structure
+
+```
+agile-project/
+│
+├── app.py          # App setup and background thread
+├── models.py       # Database models
+├── routes.py       # Application logic and routes
+├── templates/      # HTML pages
+├── static/         # Styling files
+├── seed.py         # Reset and seed database
+└── requirements.txt
+```
+
+---
+
+## Database design
+
+### User
+
+* id
+* username
+* password
+* role
+
+### Project
+
+* id
+* name
+* description
+* due_date
+* status
+
+### Story
+
+* id
+* title
+* status
+* project_id
+
+### Task
+
+* id
+* title
+* status
+* story_id
+* assigned_to
+
+---
+
+## Key routes
+
+| Method   | Endpoint                        | Purpose              |
+| -------- | ------------------------------- | -------------------- |
+| GET      | /login                          | Login page           |
+| POST     | /login                          | Login user           |
+| GET      | /dashboard                      | Main dashboard       |
+| GET/POST | /create_project                 | Create project       |
+| GET      | /view_projects                  | View all projects    |
+| GET      | /project/<id>                   | View project details |
+| GET/POST | /create_story/<project_id>      | Create story         |
+| GET      | /story/<id>                     | View story           |
+| GET/POST | /create_task/<story_id>         | Create task          |
+| GET      | /update_task/<task_id>/<status> | Update task status   |
+
+---
+
+## How to run the project
+
+1. Clone the repository
+
+```
+git clone <repo-link>
+cd agile-project
+```
+
+2. Create virtual environment
+
+```
+python -m venv venv
+venv\Scripts\activate
+```
+
+3. Install dependencies
+
+```
+pip install -r requirements.txt
+```
+
+4. Initialize database
+
+```
+python seed.py
+```
+
+5. Run the app
+
+```
+python app.py
+```
+
+6. Open in browser
+
+```
+http://127.0.0.1:5000
+```
+
+---
+
+## Design decisions
+
+* Flask was used to keep the backend simple and understandable
+* SQLite was chosen for quick setup and no external dependency
+* A background thread was used instead of Celery to keep the system lightweight
+* UI was kept minimal using Bootstrap to focus on functionality
+
+---
+
+## Security notes
+
+* Role-based access control is implemented
+* Routes are protected using login sessions
+
+Limitations:
+
+* Passwords are stored in plain text (can be improved using hashing)
+* No advanced authentication mechanisms
+
+---
+
+## What can be improved
+
+* Add password hashing
+* Add real-time updates
+* Add notifications or reminders
+* Improve UI further
+* Replace background thread with a proper task queue
+
+---
+
+## AI usage
+
+AI was used during development for:
+
+* debugging
+* structuring the project
+* improving implementation speed
+
+All logic and concepts were understood and verified before implementation.
+
+---
+
+## Final note
+
+The focus of this project was not to build something complex, but to build something complete, structured, and easy to understand.

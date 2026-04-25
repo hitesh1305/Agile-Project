@@ -1,0 +1,93 @@
+/* Corporate Palette */
+:root {
+    --kpit-blue: #003366; 
+    --kpit-teal: #00a9e0; 
+    --bg-gray: #f8f9fa;
+    --border-color: #e0e0e0;
+}
+
+body {
+    background-color: var(--bg-gray);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+/* Navbar Customization */
+.navbar {
+    background-color: var(--kpit-blue) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Main Content Container */
+.container-box {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    margin-top: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+}
+
+/* Professional Headers */
+h2, h3 {
+    color: var(--kpit-blue);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+/* Form Styling */
+.form-control {
+    border-radius: 6px;
+    padding: 12px;
+    border: 1px solid #ced4da;
+}
+
+.form-control:focus {
+    border-color: var(--kpit-teal);
+    box-shadow: 0 0 0 0.25rem rgba(0, 169, 224, 0.25);
+}
+
+/* Buttons */
+.btn-kpit-primary {
+    background-color: var(--kpit-blue);
+    color: white;
+    border: none;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.btn-kpit-primary:hover {
+    background-color: #00264d;
+    color: white;
+}
+
+/* Action Cards (for Dashboard) */
+.action-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.action-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+/* Project List Styling */
+.project-item {
+    border-left: 4px solid var(--kpit-teal);
+    margin-bottom: 15px;
+    padding: 15px;
+    background: #fdfdfd;
+    border-radius: 0 8px 8px 0;
+    list-style: none;
+}

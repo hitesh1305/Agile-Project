@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agile Project Tool</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/dashboard">Agile Tool</a>
+        <div class="d-flex">
+            <a class="nav-link text-white me-3" href="/view_projects">Projects</a>
+            <a class="nav-link text-white" href="/logout">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="container-box">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+</body>
+</html>
