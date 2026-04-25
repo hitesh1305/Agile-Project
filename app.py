@@ -2,7 +2,7 @@ from flask import Flask
 from flask_login import LoginManager
 from models import db, User, Project
 from routes import init_routes
-
+import os
 import threading
 import time
 from datetime import datetime
@@ -13,9 +13,8 @@ from datetime import datetime
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'your-secret-key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 db.init_app(app)
 
 
